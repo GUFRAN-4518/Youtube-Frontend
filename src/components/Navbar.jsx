@@ -96,15 +96,12 @@ const Navbar = ({ toggleSidebar }) => {
                 </div>
               </Link>
 
-              {user && (
-                <button
-                  onClick={handleLogout}
-                  className="mt-6 text-red-500 hover:text-red-400 p-2 text-left"
-                >
-                  Logout
-                </button>
-              )}
-
+              <button
+                onClick={handleLogout}
+                className="mt-6 text-red-500 hover:text-red-400 p-2 text-left"
+              >
+                Logout
+              </button>
             </>
           ) : (
             <Link
