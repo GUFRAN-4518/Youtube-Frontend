@@ -1,20 +1,19 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
 
-const { user, logout } = useContext(AuthContext);
-const navigate = useNavigate();
-
-const handleLogout = async () => {
-  await logout();
-  navigate("/login");
-};
 const Sidebar = ({ isOpen, closeSidebar }) => {
+  const { user, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await logout();
+    navigate("/login");
+    closeSidebar(); // optional, closes sidebar after logout
+  };
 
   return (
     <>
-      {/* Overlay (Mobile only) */}
       {isOpen && (
         <div
           onClick={closeSidebar}
