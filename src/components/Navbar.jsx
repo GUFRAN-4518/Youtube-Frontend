@@ -143,7 +143,7 @@ const Navbar = ({ toggleSidebar }) => {
           {/* 🔥 Hamburger (Mobile only) */}
           <button
             onClick={toggleSidebar}
-            className="text-white"
+            className="text-white invert md:hidden"
           >
             {/* <Menu size={24} /> */}
             ☰
