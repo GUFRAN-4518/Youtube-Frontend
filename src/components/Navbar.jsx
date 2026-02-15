@@ -116,13 +116,11 @@ import { Menu } from "lucide-react";
 const Navbar = ({ toggleSidebar }) => {
   const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
-
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearch = (e) => {
     e.preventDefault();
     if (!searchQuery.trim()) return;
-
     navigate(`/search?q=${searchQuery.trim()}`);
     setSearchQuery("");
   };
@@ -135,26 +133,28 @@ const Navbar = ({ toggleSidebar }) => {
   return (
     <header className="bg-black border-b border-gray-800 sticky top-0 z-50">
 
-      <div className="flex items-center justify-between px-4 md:px-6 py-3">
+      <div className="flex items-center justify-between px-4 py-3">
 
-        {/* LEFT SECTION */}
-        <div className="flex items-center gap-4">
+        {/* LEFT SIDE */}
+        <div className="flex items-center gap-3">
 
-          {/* 🔥 Hamburger (Mobile only) */}
+          {/* Hamburger */}
           <button
             onClick={toggleSidebar}
-            className="text-white"
+            className="text-white md:hidden"
           >
-            <Menu size={24} />
+            <Menu size={26} />
           </button>
 
-          {/* Logo */}
-          <Link to="/" className="text-2xl font-bold text-red-600">
+          <Link
+            to="/"
+            className="text-xl md:text-2xl font-bold text-red-600"
+          >
             MyTube
           </Link>
         </div>
 
-        {/* CENTER SECTION - Search (Hidden on Mobile) */}
+        {/* CENTER - Search (Desktop only) */}
         <form
           onSubmit={handleSearch}
           className="hidden md:flex items-center w-1/2"
@@ -174,11 +174,12 @@ const Navbar = ({ toggleSidebar }) => {
           </button>
         </form>
 
-        {/* RIGHT SECTION */}
-        <div className="flex items-center gap-4">
+        {/* RIGHT SIDE */}
+        <div className="flex items-center gap-3">
 
           {user ? (
             <>
+              {/* Hide these on mobile */}
               <Link
                 to="/upload"
                 className="hidden md:block bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg font-semibold"
@@ -193,7 +194,6 @@ const Navbar = ({ toggleSidebar }) => {
                 Dashboard
               </Link>
 
-              {/* Avatar */}
               <Link to={`/channel/${user._id}`}>
                 <div className="w-8 h-8 bg-gray-700 rounded-full overflow-hidden">
                   {user.avatar && (
@@ -216,7 +216,7 @@ const Navbar = ({ toggleSidebar }) => {
           ) : (
             <Link
               to="/login"
-              className="border border-gray-600 px-4 py-2 rounded-lg hover:bg-gray-800"
+              className="border border-gray-600 px-3 py-1 rounded-lg hover:bg-gray-800 text-sm"
             >
               Sign In
             </Link>
