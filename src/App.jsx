@@ -88,15 +88,18 @@ function App() {
           }
         />
 
-        {/* Upload route is protected but doesn't use AppLayout */}
+        {/* Upload route */}
         <Route
           path="/upload"
           element={
             <ProtectedRoute>
-              <Upload />
+              <AppLayout>
+                <Upload />
+              </AppLayout>
             </ProtectedRoute>
           }
         />
+
 
 
       </Routes>

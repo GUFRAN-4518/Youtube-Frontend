@@ -51,7 +51,7 @@ const Upload = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto mt-10 rounded-2xl p-15 bg-white">
+    <div className="max-w-3xl mx-auto mt-10 rounded-2xl p-6 bg-white">
 
       <h1 className="text-2xl text-black mb-6 text-center font-bold">
         Upload Video
