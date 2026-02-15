@@ -37,31 +37,15 @@ const AppLayout = ({ children }) => {
   return (
     <div className="min-h-screen bg-black text-white">
 
-      {/* Navbar */}
       <Navbar toggleSidebar={() => setIsOpen(true)} />
 
       <div className="flex">
 
-        {/* Sidebar Desktop */}
-        <div className="hidden md:block w-64">
-          <Sidebar />
-        </div>
-
-        {/* Sidebar Mobile */}
-        {isOpen && (
-          <>
-            {/* Overlay */}
-            <div
-              className="fixed inset-0 bg-black/60 z-40 md:hidden"
-              onClick={() => setIsOpen(false)}
-            />
-
-            {/* Slide Sidebar */}
-            <div className="fixed top-0 left-0 h-full w-64 bg-gray-900 z-50 md:hidden transition-transform">
-              <Sidebar closeSidebar={() => setIsOpen(false)} />
-            </div>
-          </>
-        )}
+        {/* Sidebar (handles mobile + desktop internally) */}
+        <Sidebar
+          isOpen={isOpen}
+          closeSidebar={() => setIsOpen(false)}
+        />
 
         {/* Main Content */}
         <main className="flex-1 p-4 md:p-6">
