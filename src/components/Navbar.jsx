@@ -145,7 +145,8 @@ const Navbar = ({ toggleSidebar }) => {
             onClick={toggleSidebar}
             className="md:hidden text-white"
           >
-            <Menu size={24} />
+            {/* <Menu size={24} /> */}
+            ☰
           </button>
 
           {/* Logo */}
