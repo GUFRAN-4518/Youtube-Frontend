@@ -56,7 +56,7 @@ const Sidebar = ({ isOpen, closeSidebar }) => {
           </Link>
 
           <Link
-            to="/playlist"
+            to="/playlists"
             onClick={closeSidebar}
             className="hover:bg-gray-800 p-2 rounded"
           >

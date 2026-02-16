@@ -15,7 +15,7 @@ const LikeButton = ({ videoId }) => {
       setLoading(true);
 
       const res = await api.post(
-        `/likes/toggle-video-like/${videoId}`
+        `/likes/toggle/v/${videoId}`
       );
 
       setLiked(res.data.data.liked);

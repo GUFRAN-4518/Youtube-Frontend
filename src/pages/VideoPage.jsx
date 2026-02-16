@@ -2,6 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { getVideoById } from "../api/videoApi";
 import { AuthContext } from "../context/AuthContext";
+import api from "../api/axios";
 
 import LikeButton from "../components/LikeButton";
 import SubscribeButton from "../components/SubscribeButton";
@@ -14,6 +15,40 @@ const VideoPage = () => {
   const [video, setVideo] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [showPlaylistModal, setShowPlaylistModal] = useState(false);
+
+  const [playlists, setPlaylists] = useState([]);
+
+  useEffect(() => {
+  if (!user?._id) return;
+
+  const fetchPlaylists = async () => {
+    try {
+      const res = await api.get(`/playlists/user/${user._id}`);
+      setPlaylists(res.data.data ?? []);
+    } catch (err) {
+      console.error("Failed to fetch playlists", err);
+    }
+  };
+
+  fetchPlaylists();
+}, [user]);
+
+
+  const handleAddToPlaylist = async (playlistId) => {
+    try {
+      await api.patch(`/playlists/add/${video._id}/${playlistId}`);
+      alert("Added to playlist!");
+      setShowPlaylistModal(false);
+    } catch (err) {
+      alert(
+        err.response?.data?.message ||
+        "Failed to add video"
+      );
+    }
+  };
+
+
 
   useEffect(() => {
     const fetchVideo = async () => {
@@ -68,10 +103,55 @@ const VideoPage = () => {
         />
       </div>
 
-      {/* Video Title */}
-      <h1 className="text-2xl font-bold mt-1">
-        {video.title}
-      </h1>
+      {/* Video Title and Add to playlist option */}
+      <div className="flex justify-between">
+        <h1 className="text-2xl font-bold mt-1">
+          {video.title}
+        </h1>
+        <button
+          onClick={() => setShowPlaylistModal(true)}
+          className="bg-gray-800 px-4 py-2 rounded"
+        >
+          Add to Playlist
+        </button>
+        {showPlaylistModal && (
+          <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+            <div className="bg-gray-900 p-6 rounded-xl w-96">
+
+              <h2 className="text-xl font-bold mb-4">
+                Add to Playlist
+              </h2>
+
+              {playlists.length === 0 ? (
+                <p className="text-gray-400">
+                  No playlists found.
+                </p>
+              ) : (
+                <div className="space-y-3">
+                  {playlists.map((playlist) => (
+                    <button
+                      key={playlist._id}
+                      onClick={() => handleAddToPlaylist(playlist._id)}
+                      className="w-full text-left p-3 bg-gray-800 rounded hover:bg-gray-700"
+                    >
+                      {playlist.name}
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              <button
+                onClick={() => setShowPlaylistModal(false)}
+                className="mt-4 text-red-500"
+              >
+                Close
+              </button>
+
+            </div>
+          </div>
+        )}
+
+      </div>
 
       {/* Views + Date */}
       <p className="text-gray-400 mt-1">
@@ -103,7 +183,9 @@ const VideoPage = () => {
 
         {/* Like Button */}
         <LikeButton videoId={video._id} />
+
       </div>
+
 
       {/* Description */}
       <div className="bg-gray-900 p-4 rounded-xl mt-6">
