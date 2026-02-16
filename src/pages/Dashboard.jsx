@@ -47,7 +47,21 @@ const Dashboard = () => {
       </div>
     );
   }
-  console.log(videos[0]);
+  const handleToggle = async (videoId) => {
+    try {
+      const res = await api.patch(`/videos/toggle/publish/${videoId}`);
+
+      setVideos((prev) =>
+        prev.map((v) =>
+          v._id === videoId ? { ...v, isPublished: res.data.data.isPublished } : v
+        )
+      );
+
+    } catch (err) {
+      console.error("Toggle failed", err);
+    }
+  };
+
 
   return (
     <div className="max-w-6xl mx-auto">
@@ -60,28 +74,28 @@ const Dashboard = () => {
       {stats && (
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
 
-          <div className="bg-gray-900 p-6 rounded-xl">
+          <div className="bg-gray-900 p-6 rounded-xl border-2 border-red-500">
             <p className="text-gray-400 text-sm">Total Videos</p>
             <p className="text-2xl font-bold mt-2">
               {stats.totalVideos}
             </p>
           </div>
 
-          <div className="bg-gray-900 p-6 rounded-xl">
+          <div className="bg-gray-900 p-6 rounded-xl border-2 border-red-500">
             <p className="text-gray-400 text-sm">Total Views</p>
             <p className="text-2xl font-bold mt-2">
               {stats.totalViews}
             </p>
           </div>
 
-          <div className="bg-gray-900 p-6 rounded-xl">
+          <div className="bg-gray-900 p-6 rounded-xl  border-2 border-red-500">
             <p className="text-gray-400 text-sm">Subscribers</p>
             <p className="text-2xl font-bold mt-2">
               {stats.totalSubscribers}
             </p>
           </div>
 
-          <div className="bg-gray-900 p-6 rounded-xl">
+          <div className="bg-gray-900 p-6 rounded-xl  border-2 border-red-500">
             <p className="text-gray-400 text-sm">Total Likes</p>
             <p className="text-2xl font-bold mt-2">
               {stats.totalLikes}
@@ -100,9 +114,24 @@ const Dashboard = () => {
         {videos?.length === 0 ? (
           <p className="text-gray-400">No videos uploaded yet</p>
         ) : (
+          // videos.map((video) => (
+          //   <VideoCard key={video._id} video={video} />
+          // ))
           videos.map((video) => (
-            <VideoCard key={video._id} video={video} />
+            <div key={video._id} className="relative">
+
+              <VideoCard video={video} />
+
+              <button
+                onClick={() => handleToggle(video._id)}
+                className="absolute top-2 cursor-pointer right-2 bg-yellow-500 text-black px-2 py-1 rounded text-xs"
+              >
+                {video.isPublished ? "publish" : "Unpublish"}
+              </button>
+
+            </div>
           ))
+
         )}
 
       </div>

@@ -66,7 +66,7 @@ const Sidebar = ({ isOpen, closeSidebar }) => {
           {user && (
             <button
               onClick={handleLogout}
-              className="mt-6 text-red-500 hover:text-red-400 p-2 text-left"
+              className="mt-6 text-red-500 cursor-pointer hover:bg-gray-800 hover:text-red-400 p-2 text-left"
             >
               Logout
             </button>

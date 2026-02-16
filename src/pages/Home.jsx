@@ -24,7 +24,7 @@ const Home = () => {
         sortType: "desc",
       });
 
-      const newVideos = res.data.data.videos;
+      const newVideos = res.data.data;
 
       if (newVideos.length < limit) {
         setHasMore(false);

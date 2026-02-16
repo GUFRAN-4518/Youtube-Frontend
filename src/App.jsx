@@ -46,7 +46,7 @@ function App() {
         />
 
         <Route
-          path="/channel/:id"
+          path="/channel/:username"
           element={
             <AppLayout>
               <Channel />

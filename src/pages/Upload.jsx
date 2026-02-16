@@ -51,9 +51,9 @@ const Upload = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto mt-10 rounded-2xl p-6 bg-white">
+    <div className="border-4 border-red-500 max-w-full mx-auto mt-10 rounded-2xl p-6 bg-white">
 
-      <h1 className="text-2xl text-black mb-6 text-center font-bold">
+      <h1 className="text-2xl text-black mb-6 text-center items-center font-bold">
         Upload Video
       </h1>
 
@@ -132,13 +132,15 @@ const Upload = () => {
           </span>
         </div>
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="bg-red-600 px-6 py-2 rounded-lg font-semibold"
-        >
-          {loading ? "Uploading..." : "Upload"}
-        </button>
+        <div className="text-center">
+          <button
+            type="submit"
+            disabled={loading}
+            className="bg-red-600 px-6 py-2 rounded-lg font-semibold"
+          >
+            {loading ? "Uploading..." : "Upload"}
+          </button>
+        </div>
 
       </form>
 

@@ -84,7 +84,7 @@ const Navbar = ({ toggleSidebar }) => {
                 Dashboard
               </Link>
 
-              <Link to={`/channel/${user._id}`}>
+              <Link to={`/channel/${user.username}`}>
                 <div className="w-8 h-8 bg-gray-700 rounded-full overflow-hidden">
                   {user.avatar && (
                     <img
