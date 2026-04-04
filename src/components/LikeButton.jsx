@@ -7,21 +7,44 @@ const LikeButton = ({ videoId }) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // Optional: fetch initial like status from video object if available
-  }, []);
+    const fetchLikes = async () => {
+      try {
+        const res = await api.get(`/likes/status/v/${videoId}`);
+        setLiked(res.data.data.liked);
+        setLikesCount(res.data.data.likesCount);
+      } catch (err) {
+        console.error("Fetch like error:", err);
+      }
+    };
+
+    fetchLikes();
+  }, [videoId]);
 
   const toggleLike = async () => {
+    if (loading) return;
+
+    const prevLiked = liked;
+
+    setLiked(!liked);
+    setLikesCount(prev => prev + (liked ? -1 : 1));
+
     try {
       setLoading(true);
 
-      const res = await api.post(
-        `/likes/toggle/v/${videoId}`
-      );
+      const res = await api.post(`/likes/toggle/v/${videoId}`);
 
       setLiked(res.data.data.liked);
       setLikesCount(res.data.data.likesCount);
 
     } catch (err) {
+      if (err.response?.status === 401) {
+        window.location.href = "/login";
+        return;
+      }
+
+      setLiked(prevLiked);
+      setLikesCount(prev => prev + (prevLiked ? 1 : -1));
+
       console.error("Like error:", err);
     } finally {
       setLoading(false);
@@ -36,9 +59,9 @@ const LikeButton = ({ videoId }) => {
         liked
           ? "bg-red-600"
           : "bg-gray-800 hover:bg-gray-700"
-      }`}
+      } ${loading ? "opacity-50" : ""}`}
     >
-      ❤️ {likesCount}
+      {liked ? "❤️" : "🤍"} {likesCount}
     </button>
   );
 };
