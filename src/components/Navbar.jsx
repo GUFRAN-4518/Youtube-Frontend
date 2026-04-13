@@ -40,7 +40,7 @@ const Navbar = ({ toggleSidebar }) => {
             to="/"
             className="text-xl md:text-2xl font-bold text-red-600"
           >
-            MyTube
+            Clipjoy
           </Link>
         </div>
 

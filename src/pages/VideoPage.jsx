@@ -20,19 +20,19 @@ const VideoPage = () => {
   const [playlists, setPlaylists] = useState([]);
 
   useEffect(() => {
-  if (!user?._id) return;
+    if (!user?._id) return;
 
-  const fetchPlaylists = async () => {
-    try {
-      const res = await api.get(`/playlists/user/${user._id}`);
-      setPlaylists(res.data.data ?? []);
-    } catch (err) {
-      console.error("Failed to fetch playlists", err);
-    }
-  };
+    const fetchPlaylists = async () => {
+      try {
+        const res = await api.get(`/playlists/user/${user._id}`);
+        setPlaylists(res.data.data ?? []);
+      } catch (err) {
+        console.error("Failed to fetch playlists", err);
+      }
+    };
 
-  fetchPlaylists();
-}, [user]);
+    fetchPlaylists();
+  }, [user]);
 
 
   const handleAddToPlaylist = async (playlistId) => {
@@ -47,7 +47,6 @@ const VideoPage = () => {
       );
     }
   };
-
 
 
   useEffect(() => {
@@ -71,6 +70,16 @@ const VideoPage = () => {
     fetchVideo();
   }, [id]);
 
+  useEffect(() => {
+    if (!video?._id) return;
+
+    const timer = setTimeout(() => {
+      api.post(`/views/v/${video._id}`);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, [video?._id]);
+
   if (loading) {
     return (
       <div className="text-center mt-10 text-gray-400">
@@ -89,7 +98,8 @@ const VideoPage = () => {
 
   if (!video) return null;
 
-  const isOwner = user?._id === video.owner?._id;
+  // const isOwner = user?._id === video.owner?._id;
+  const isOwner = user?._id?.toString() === video.owner?._id?.toString();
 
   return (
     <div className="max-w-6x">
@@ -99,6 +109,7 @@ const VideoPage = () => {
         <video
           src={video.videoFile}
           controls
+          autoPlay
           className="w-full h-full"
         />
       </div>
@@ -176,14 +187,13 @@ const VideoPage = () => {
             </p>
           </div>
 
-          {!isOwner && (
-            <SubscribeButton channelId={video.owner?._id} />
+          {!isOwner && video?.owner?._id && (
+            <SubscribeButton channelId={video.owner._id} setVideo={setVideo}/>
           )}
         </div>
 
         {/* Like Button */}
         <LikeButton videoId={video._id} />
-
       </div>
 
 

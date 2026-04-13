@@ -42,7 +42,7 @@ const Login = () => {
             <div className="w-full max-w-md bg-gray-900 p-8 rounded-xl shadow-lg">
 
                 <h2 className="text-2xl font-bold mb-6 text-center">
-                    Sign In to MyTube
+                    Sign In to Clipjoy
                 </h2>
 
                 {error && (
