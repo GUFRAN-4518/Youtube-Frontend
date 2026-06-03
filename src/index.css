@@ -1,5 +1,62 @@
 @import "tailwindcss";
 
-body {
-  @apply bg-gray-900 text-white min-h-screen;
+/* body {
+  @apply bg-black text-white min-h-screen;
+} */
+
+@layer base {
+  /* Main Body & Root Template Framework */
+  html, 
+  body, 
+  #root {
+    background-color: #050505;
+    color: #f3f4f6; /* text-gray-100 */
+    min-h: 100vh;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  /* Smooth Layout Scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Custom Premium Scrollbar Architecture */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #0a0a0a;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #262626; /* Neutral dark thumb */
+    border-radius: 10px;
+    border: 2px solid #0a0a0a;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #dc2626; /* Clipjoy brand red glow on hover */
+  }
+
+  /* Selection Override */
+  ::selection {
+    background-color: rgba(220, 38, 38, 0.3);
+    color: #ffffff;
+  }
+}
+
+/* Global Core Utility Overrides */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #ffffff;
+  -webkit-box-shadow: 0 0 0px 1000px #171717 inset;
+  transition: background-color 5000s ease-in-out 0s;
 }

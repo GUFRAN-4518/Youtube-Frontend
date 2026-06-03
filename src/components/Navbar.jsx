@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-import { Menu } from "lucide-react";
+import { Menu, Search } from "lucide-react";
 
 const Navbar = ({ toggleSidebar }) => {
   const { user, logout } = useContext(AuthContext);
@@ -15,96 +15,80 @@ const Navbar = ({ toggleSidebar }) => {
     setSearchQuery("");
   };
 
-  const handleLogout = async () => {
-    await logout();
-    navigate("/login");
-  };
-
   return (
-    <header className="bg-black border-b border-gray-800 sticky top-0 z-50">
-
-      <div className="flex items-center justify-between px-4 py-3">
+    <header className="sticky top-0 z-50 bg-black/80 backdrop-blur-lg border-b border-white/10 transition-all duration-300">
+      <div className="flex items-center justify-between px-4 lg:px-8 py-3">
 
         {/* LEFT SIDE */}
-        <div className="flex items-center gap-3">
-
-          {/* Hamburger */}
+        <div className="flex items-center gap-4">
           <button
             onClick={toggleSidebar}
-            className="text-white md:hidden"
+            className="text-gray-300 hover:text-white transition-colors md:hidden"
           >
-            <Menu size={26} />
+            <Menu size={28} />
           </button>
 
           <Link
             to="/"
-            className="text-xl md:text-2xl font-bold text-red-600"
+            className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-rose-600 tracking-tight"
           >
             Clipjoy
           </Link>
         </div>
 
-        {/* CENTER - Search (Desktop only) */}
+        {/* CENTER - Search */}
         <form
           onSubmit={handleSearch}
-          className="hidden md:flex items-center w-1/2"
+          className="hidden md:flex items-center w-full max-w-xl group relative"
         >
+          <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+            <Search size={18} className="text-gray-500 group-focus-within:text-red-500 transition-colors" />
+          </div>
           <input
             type="text"
-            placeholder="Search"
+            placeholder="Search videos..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-l-full focus:outline-none"
+            className="w-full pl-12 pr-4 py-2.5 bg-white/5 border border-white/10 rounded-full text-white placeholder-gray-500 focus:outline-none focus:border-red-500/50 focus:ring-1 focus:ring-red-500/50 transition-all duration-300"
           />
-          <button
-            type="submit"
-            className="px-6 py-2 bg-gray-800 border border-gray-700 rounded-r-full hover:bg-gray-700"
-          >
-            🔍
-          </button>
         </form>
 
         {/* RIGHT SIDE */}
-        <div className="flex items-center gap-3">
-
+        <div className="flex items-center gap-5">
           {user ? (
             <>
-              {/* Hide these on mobile */}
               <Link
                 to="/upload"
-                className="hidden md:block bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg font-semibold"
+                className="hidden md:flex items-center justify-center bg-red-600 hover:bg-red-500 text-white px-5 py-2 rounded-full font-medium shadow-[0_0_15px_rgba(220,38,38,0.3)] hover:shadow-[0_0_25px_rgba(220,38,38,0.5)] transition-all duration-300 transform hover:-translate-y-0.5"
               >
                 Upload
               </Link>
 
               <Link
                 to="/dashboard"
-                className="hidden md:block text-gray-300 hover:text-white"
+                className="hidden md:block text-sm font-medium text-gray-400 hover:text-white transition-colors"
               >
                 Dashboard
               </Link>
 
-              <Link to={`/channel/${user.username}`}>
-                <div className="w-8 h-8 bg-gray-700 rounded-full overflow-hidden">
-                  {user.avatar && (
-                    <img
-                      src={user.avatar}
-                      alt="avatar"
-                      className="w-full h-full object-cover"
-                    />
-                  )}
+              <Link to={`/channel/${user.username}`} className="relative group">
+                <div className="w-9 h-9 rounded-full overflow-hidden border-2 border-transparent group-hover:border-red-500 transition-all duration-300">
+                  <img
+                    src={user.avatar || "https://via.placeholder.com/150"}
+                    alt="avatar"
+                    className="w-full h-full object-cover"
+                  />
                 </div>
               </Link>
             </>
           ) : (
             <Link
               to="/login"
-              className="border border-gray-600 px-3 py-1 rounded-lg hover:bg-gray-800 text-sm"
+              className="text-sm font-semibold text-white border border-white/20 px-5 py-2 rounded-full hover:bg-white hover:text-black transition-all duration-300"
             >
               Sign In
             </Link>
           )}
-
         </div>
       </div>
     </header>

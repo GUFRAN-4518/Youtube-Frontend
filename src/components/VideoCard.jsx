@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { Play } from "lucide-react";
 
 const VideoCard = ({ video }) => {
   const thumbnail =
@@ -14,51 +15,53 @@ const VideoCard = ({ video }) => {
   return (
     <Link
       to={`/video/${video._id}`}
-      className="group cursor-pointer block"
+      className="group flex flex-col gap-3 cursor-pointer"
     >
-      {/* Thumbnail */}
-      <div className="relative w-full aspect-video overflow-hidden rounded-xl bg-gray-800">
-
+      {/* Thumbnail Container */}
+      <div className="relative w-full aspect-video overflow-hidden rounded-2xl bg-gray-900 border border-white/5 shadow-lg">
         <img
           src={thumbnail}
           alt={video.title}
-          className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
+          className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500 ease-out"
         />
 
+        {/* Hover Overlay */}
+        <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+            <div className="bg-red-600/90 backdrop-blur-sm p-3 rounded-full transform scale-75 group-hover:scale-100 transition-transform duration-300 shadow-[0_0_20px_rgba(220,38,38,0.6)]">
+                <Play className="text-white w-6 h-6 fill-current pl-0.5" />
+            </div>
+        </div>
+
         {!video.isPublished && (
-          <span className="absolute top-2 left-2 bg-yellow-500 text-black text-xs px-2 py-1 rounded">
+          <span className="absolute top-3 left-3 bg-yellow-500/90 backdrop-blur-md text-black font-bold text-xs px-2.5 py-1 rounded-md shadow-sm">
             Draft
           </span>
         )}
       </div>
 
-      {/* Video Info */}
-      <div className="flex gap-3 mt-3">
-
-        {/* Avatar */}
+      {/* Info Section */}
+      <div className="flex gap-3 px-1">
         <img
           src={avatar}
           alt="channel avatar"
-          className="w-10 h-10 rounded-full object-cover bg-gray-700"
+          className="w-9 h-9 rounded-full object-cover bg-gray-800 border border-white/10 shrink-0 mt-0.5"
         />
 
-        <div className="flex flex-col flex-1">
-
-          <h3 className="font-semibold text-sm line-clamp-2 leading-snug">
+        <div className="flex flex-col overflow-hidden">
+          <h3 className="font-semibold text-gray-100 text-[15px] line-clamp-2 leading-snug group-hover:text-red-400 transition-colors duration-200">
             {video.title}
           </h3>
 
-          <p className="text-gray-400 text-sm mt-1">
+          <p className="text-gray-400 text-sm mt-1 hover:text-gray-300 transition-colors">
             {video.owner?.username || "Unknown Channel"}
           </p>
 
-          <p className="text-gray-500 text-xs mt-1">
-            {video.views ?? 0} views •{" "}
+          <p className="text-gray-500 text-xs mt-0.5 font-medium">
+            {video.views?.toLocaleString() ?? 0} views <span className="mx-1">•</span>{" "}
             {video.createdAt
-              ? new Date(video.createdAt).toLocaleDateString()
+              ? new Date(video.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })
               : ""}
           </p>
-
         </div>
       </div>
     </Link>

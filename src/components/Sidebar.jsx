@@ -1,78 +1,63 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+// 1. Import the MessageSquare icon from lucide-react
+import { Home, LayoutDashboard, UploadCloud, ListVideo, LogOut, MessageSquare } from "lucide-react";
 
 const Sidebar = ({ isOpen, closeSidebar }) => {
   const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogout = async () => {
     await logout();
     navigate("/login");
-    closeSidebar(); // optional, closes sidebar after logout
+    closeSidebar();
   };
+
+  // 2. Add Community to your navigation array
+  const navItems = [
+    { name: "Home", path: "/", icon: Home },
+    { name: "Dashboard", path: "/dashboard", icon: LayoutDashboard },
+    { name: "Upload", path: "/upload", icon: UploadCloud },
+    { name: "Playlists", path: "/playlists", icon: ListVideo },
+    { name: "Community", path: "/community", icon: MessageSquare }, // 🌟 Added this row
+  ];
 
   return (
     <>
       {isOpen && (
-        <div
-          onClick={closeSidebar}
-          className="fixed inset-0 bg-black/50 md:hidden z-40"
-        />
+        <div onClick={closeSidebar} className="fixed inset-0 bg-black/60 backdrop-blur-sm md:hidden z-40" />
       )}
 
-      <aside
-        className={`
-          fixed md:static top-0 left-0 h-full w-64 bg-black border-r border-gray-800 p-4
-          transform transition-transform duration-300 z-50
-          ${isOpen ? "translate-x-0" : "-translate-x-full"}
-          md:translate-x-0
-        `}
-      >
-        <nav className="flex flex-col gap-4 mt-6">
+      <aside className={`fixed md:sticky top-0 md:top-[65px] left-0 h-screen md:h-[calc(100vh-65px)] w-64 bg-[#0a0a0a] border-r border-white/5 p-4 flex flex-col transform transition-transform duration-300 z-50 ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}>
+        <nav className="flex flex-col gap-2 mt-4 flex-1">
+          {navItems.map((item) => {
+            const isActive = location.pathname === item.path;
+            const Icon = item.icon;
+            
+            return (
+              <Link
+                key={item.name}
+                to={item.path}
+                onClick={closeSidebar}
+                className={`flex items-center gap-4 px-4 py-3 rounded-xl font-medium transition-all duration-200 ${isActive ? "bg-white/10 text-white" : "text-gray-400 hover:bg-white/5 hover:text-gray-200"}`}
+              >
+                <Icon size={20} className={isActive ? "text-red-500" : ""} />
+                {item.name}
+              </Link>
+            );
+          })}
+        </nav>
 
-          <Link
-            to="/"
-            onClick={closeSidebar}
-            className="hover:bg-gray-800 p-2 rounded"
-          >
-            Home
-          </Link>
-
-          <Link
-            to="/dashboard"
-            onClick={closeSidebar}
-            className="hover:bg-gray-800 p-2 rounded"
-          >
-            Dashboard
-          </Link>
-
-          <Link
-            to="/upload"
-            onClick={closeSidebar}
-            className="hover:bg-gray-800 p-2 rounded"
-          >
-            Upload
-          </Link>
-
-          <Link
-            to="/playlists"
-            onClick={closeSidebar}
-            className="hover:bg-gray-800 p-2 rounded"
-          >
-            Playlists
-          </Link>
-
-          {user && (
-            <button
-              onClick={handleLogout}
-              className="mt-6 text-red-500 cursor-pointer hover:bg-gray-800 hover:text-red-400 p-2 text-left"
-            >
+        {user && (
+          <div className="pt-4 border-t border-white/5 mb-6">
+            <button onClick={handleLogout} className="w-full flex items-center gap-4 px-4 py-3 rounded-xl font-medium text-gray-400 hover:bg-red-500/10 hover:text-red-500 transition-all duration-200">
+              <LogOut size={20} />
               Logout
             </button>
-          )}
-
-        </nav>
+          </div>
+        )}
       </aside>
     </>
   );
