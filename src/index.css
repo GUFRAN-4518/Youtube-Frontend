@@ -1,16 +1,12 @@
 @import "tailwindcss";
 
-/* body {
-  @apply bg-black text-white min-h-screen;
-} */
-
 @layer base {
   /* Main Body & Root Template Framework */
   html, 
   body, 
   #root {
     background-color: #050505;
-    color: #f3f4f6; /* text-gray-100 */
+    color: #f3f4f6;
     min-h: 100vh;
     margin: 0;
     padding: 0;
@@ -20,12 +16,10 @@
     overflow-x: hidden;
   }
 
-  /* Smooth Layout Scrolling */
   html {
     scroll-behavior: smooth;
   }
 
-  /* Custom Premium Scrollbar Architecture */
   ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
@@ -36,16 +30,15 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #262626; /* Neutral dark thumb */
+    background: #262626;
     border-radius: 10px;
     border: 2px solid #0a0a0a;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: #dc2626; /* Clipjoy brand red glow on hover */
+    background: #dc2626; 
   }
 
-  /* Selection Override */
   ::selection {
     background-color: rgba(220, 38, 38, 0.3);
     color: #ffffff;

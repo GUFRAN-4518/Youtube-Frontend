@@ -13,3 +13,7 @@ export const searchVideos = (query) => {
     params: { query },
   });
 };
+
+export const addView = (id) => {
+  return api.post(`/views/v/${id}`); 
+};

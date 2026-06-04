@@ -8,8 +8,6 @@ const Dashboard = () => {
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
-  // Editing Video States
   const [editingVideo, setEditingVideo] = useState(null);
   const [editTitle, setEditTitle] = useState("");
   const [editDescription, setEditDescription] = useState("");
@@ -82,7 +80,6 @@ const Dashboard = () => {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      // Update local state smoothly
       setVideos((prev) =>
         prev.map((v) => (v._id === editingVideo._id ? { ...v, ...res.data.data } : v))
       );
@@ -100,9 +97,7 @@ const Dashboard = () => {
 
     try {
       await api.delete(`/videos/${videoId}`);
-      // Filter out deleted item from state tree
       setVideos((prev) => prev.filter((v) => v._id !== videoId));
-      // Refresh metric stats to match counter modifications
       const statsRes = await api.get("/dashboard/stats");
       setStats(statsRes.data.data);
     } catch (err) {
@@ -153,7 +148,6 @@ const Dashboard = () => {
               
               {/* Floating Practical Action Row Control Bar */}
               <div className="absolute top-4 right-4 flex items-center gap-2">
-                {/* Publish Status Toggle Badge */}
                 <button
                   onClick={() => handleToggle(video._id)}
                   className={`flex items-center gap-1.5 backdrop-blur-md px-3 py-1.5 rounded-lg text-xs font-bold shadow-md cursor-pointer transition-all duration-200 active:scale-95 ${
@@ -167,7 +161,6 @@ const Dashboard = () => {
                   {video.isPublished ? "Published" : "Draft"}
                 </button>
 
-                {/* Edit Pencil Action Key */}
                 <button
                   onClick={() => openEditModal(video)}
                   className="p-2 bg-black/60 backdrop-blur-md border border-white/10 text-gray-300 hover:text-white rounded-lg shadow-md transition-colors"
@@ -176,7 +169,6 @@ const Dashboard = () => {
                   <Pencil size={13} />
                 </button>
 
-                {/* Delete Bin Action Key */}
                 <button
                   onClick={() => handleDeleteVideo(video._id)}
                   className="p-2 bg-black/60 backdrop-blur-md border border-red-500/20 text-red-400 hover:bg-red-600 hover:text-white rounded-lg shadow-md transition-all"

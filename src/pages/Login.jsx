@@ -36,7 +36,6 @@ const Login = () => {
         <div className="min-h-[85vh] flex items-center justify-center px-4 py-8">
             <div className="w-full max-w-md bg-[#0a0a0a] border-2 border-white p-8 sm:p-10 rounded-3xl shadow-2xl relative overflow-hidden">
                 
-                {/* Decorative background glow */}
                 <div className="absolute -top-20 -right-20 w-40 h-40 bg-red-600/20 rounded-full blur-[60px] pointer-events-none"></div>
 
                 <div className="text-center mb-8 relative z-10">

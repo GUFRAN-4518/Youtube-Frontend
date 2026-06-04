@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/axios";
-import { UploadCloud, FileImage, FileVideo } from "lucide-react";
+import { UploadCloud, FileImage } from "lucide-react";
 
 const Upload = () => {
   const navigate = useNavigate();
@@ -14,6 +14,7 @@ const Upload = () => {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [useAI, setUseAI] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,11 +28,12 @@ const Upload = () => {
       setError("");
 
       const formData = new FormData();
-      formData.append("title", title);
+      formData.append("title", useAI ? (videoFile?.name?.split('.')[0] || "AI Auto-Generated") : title);
       formData.append("description", description);
       formData.append("thumbnail", thumbnail);
       formData.append("videoFile", videoFile);
       formData.append("isPublished", isPublished);
+      formData.append("useAI", useAI);
 
       const res = await api.post("/videos", formData, {
         headers: { "Content-Type": "multipart/form-data" },
@@ -64,18 +66,40 @@ const Upload = () => {
         )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
+          {/* AI Optimization Toggle */}
+          <div className="bg-white/5 border border-white/10 p-4 rounded-xl flex items-center justify-between mb-4">
+            <div>
+              <p className="text-sm font-semibold text-white">Optimize with Gemini AI</p>
+              <p className="text-xs text-gray-400">Automatically generate catchy title and description.</p>
+            </div>
+            <label className="relative inline-flex items-center cursor-pointer">
+              <input
+                type="checkbox"
+                checked={useAI}
+                onChange={(e) => setUseAI(e.target.checked)}
+                className="sr-only peer"
+              />
+              <div className="w-11 h-6 bg-white/10 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-gray-400 after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-600 peer-checked:after:bg-white"></div>
+            </label>
+          </div>
+
           {/* Title */}
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-2">
-              Title <span className="text-red-500">*</span>
+              Title {!useAI && <span className="text-red-500">*</span>}
             </label>
             <input
               type="text"
-              required
-              value={title}
+              value={useAI ? "" : title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder="Give your video an attention-grabbing title"
-              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-600 focus:outline-none focus:border-red-500/50 focus:ring-1 focus:ring-red-500/50 transition-all duration-300"
+              placeholder={useAI ? "Gemini will analyze your video track to build this automatically..." : "Give your video an attention-grabbing title"}
+              required={!useAI}
+              disabled={useAI}
+              className={`w-full px-4 py-3 bg-white/5 border rounded-xl text-white placeholder-gray-600 focus:outline-none transition-all duration-300 ${
+                useAI 
+                  ? "border-white/5 opacity-40 cursor-not-allowed select-none" 
+                  : "border-white/10 focus:border-red-500/50 focus:ring-1 focus:ring-red-500/50"
+              }`}
             />
           </div>
 
@@ -84,12 +108,18 @@ const Upload = () => {
             <label className="block text-sm font-medium text-gray-300 mb-2">
               Description
             </label>
-            <textarea
-              rows="4"
-              value={description}
+            <input
+              type="text"
+              value={useAI ? "" : description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="Tell viewers what your video is about..."
-              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-600 focus:outline-none focus:border-red-500/50 focus:ring-1 focus:ring-red-500/50 transition-all duration-300 resize-none"
+              placeholder={useAI ? "Gemini will analyze your video track to build this automatically..." : "Tell viewers what your video is about..."}
+              required={!useAI}
+              disabled={useAI}
+              className={`w-full px-4 py-3 bg-white/5 border rounded-xl text-white placeholder-gray-600 focus:outline-none transition-all duration-300 ${
+                useAI 
+                  ? "border-white/5 opacity-40 cursor-not-allowed select-none" 
+                  : "border-white/10 focus:border-red-500/50 focus:ring-1 focus:ring-red-500/50"
+              }`}
             />
           </div>
 
@@ -103,10 +133,9 @@ const Upload = () => {
               <label className="flex flex-col items-center justify-center aspect-video w-full bg-white/5 border border-dashed border-white/20 rounded-2xl cursor-pointer hover:bg-white/10 hover:border-red-500/50 transition-all duration-300 group">
                 <div className="text-center p-4">
                   <FileImage className="mx-auto text-gray-500 group-hover:text-red-500 mb-2 transition-colors" size={28} />
-                  <span className="text-sm text-gray-400 block font-medium">
+                  <span className="text-sm text-gray-400 block font-medium max-w-[200px] truncate">
                     {thumbnail ? thumbnail.name : "Select Thumbnail"}
                   </span>
-                  <span className="text-xs text-gray-600 block mt-1">PNG, JPG up to 5MB</span>
                 </div>
                 <input
                   type="file"
@@ -125,10 +154,9 @@ const Upload = () => {
               <label className="flex flex-col items-center justify-center aspect-video w-full bg-white/5 border border-dashed border-white/20 rounded-2xl cursor-pointer hover:bg-white/10 hover:border-red-500/50 transition-all duration-300 group">
                 <div className="text-center p-4">
                   <UploadCloud className="mx-auto text-gray-500 group-hover:text-red-500 mb-2 transition-colors" size={28} />
-                  <span className="text-sm text-gray-400 block font-medium">
-                    {videoFile ? videoFile.name : "Select Video Source"}
+                  <span className="text-sm text-gray-400 block font-medium max-w-[200px] truncate">
+                    {videoFile ? videoFile.name : "Select Video"}
                   </span>
-                  <span className="text-xs text-gray-600 block mt-1">MP4, WebM up to 100MB</span>
                 </div>
                 <input
                   type="file"
@@ -161,7 +189,7 @@ const Upload = () => {
               disabled={loading}
               className="w-full bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white py-3.5 rounded-xl font-semibold shadow-[0_0_15px_rgba(220,38,38,0.2)] hover:shadow-[0_0_25px_rgba(220,38,38,0.4)] transition-all duration-300 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? "Processing Upload..." : "Upload & Launch"}
+              {loading ? "Processing Upload" : "Upload & Launch"}
             </button>
           </div>
         </form>

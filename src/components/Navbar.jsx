@@ -39,7 +39,7 @@ const Navbar = ({ toggleSidebar }) => {
         {/* CENTER - Search */}
         <form
           onSubmit={handleSearch}
-          className="hidden md:flex items-center w-full max-w-xl group relative"
+          className="flex md:w-full items-center w-full m-2 max-w-xl group relative"
         >
           <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
             <Search size={18} className="text-gray-500 group-focus-within:text-red-500 transition-colors" />
@@ -57,20 +57,6 @@ const Navbar = ({ toggleSidebar }) => {
         <div className="flex items-center gap-5">
           {user ? (
             <>
-              <Link
-                to="/upload"
-                className="hidden md:flex items-center justify-center bg-red-600 hover:bg-red-500 text-white px-5 py-2 rounded-full font-medium shadow-[0_0_15px_rgba(220,38,38,0.3)] hover:shadow-[0_0_25px_rgba(220,38,38,0.5)] transition-all duration-300 transform hover:-translate-y-0.5"
-              >
-                Upload
-              </Link>
-
-              <Link
-                to="/dashboard"
-                className="hidden md:block text-sm font-medium text-gray-400 hover:text-white transition-colors"
-              >
-                Dashboard
-              </Link>
-
               <Link to={`/channel/${user.username}`} className="relative group">
                 <div className="w-9 h-9 rounded-full overflow-hidden border-2 border-transparent group-hover:border-red-500 transition-all duration-300">
                   <img

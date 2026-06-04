@@ -17,7 +17,6 @@ const VideoCard = ({ video }) => {
       to={`/video/${video._id}`}
       className="group flex flex-col gap-3 cursor-pointer"
     >
-      {/* Thumbnail Container */}
       <div className="relative w-full aspect-video overflow-hidden rounded-2xl bg-gray-900 border border-white/5 shadow-lg">
         <img
           src={thumbnail}
@@ -25,7 +24,6 @@ const VideoCard = ({ video }) => {
           className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500 ease-out"
         />
 
-        {/* Hover Overlay */}
         <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
             <div className="bg-red-600/90 backdrop-blur-sm p-3 rounded-full transform scale-75 group-hover:scale-100 transition-transform duration-300 shadow-[0_0_20px_rgba(220,38,38,0.6)]">
                 <Play className="text-white w-6 h-6 fill-current pl-0.5" />

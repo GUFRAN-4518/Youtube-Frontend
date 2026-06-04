@@ -23,7 +23,6 @@ const PlaylistCard = ({ playlist }) => {
           </div>
         )}
 
-        {/* Right Side Overlay Layer (YouTube Style Playlist indicator) */}
         <div className="absolute top-0 right-0 bottom-0 w-1/3 bg-black/60 backdrop-blur-sm flex flex-col items-center justify-center border-l border-white/10 opacity-90 group-hover:bg-red-600/80 transition-colors duration-300">
           <ListVideo className="text-white w-6 h-6 mb-1" />
           <span className="text-white text-xs font-medium">

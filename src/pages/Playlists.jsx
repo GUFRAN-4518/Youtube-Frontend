@@ -93,7 +93,7 @@ const Playlists = () => {
                                 </div>
                                 <div className="p-5">
                                     <h3 className="font-bold text-gray-100 group-hover:text-red-400 transition-colors line-clamp-1">{playlist.name}</h3>
-                                    <p className="text-gray-400 text-xs font-medium mt-1">{playlist.videos.length} items cataloged</p>
+                                    <p className="text-gray-400 text-xs font-medium mt-1">{playlist.videos.length} videos</p>
                                 </div>
                             </Link>
                         );

@@ -78,7 +78,6 @@ const Register = () => {
             <input type="password" name="password" required value={formData.password} onChange={handleChange} className="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-red-500/50 text-sm" />
           </div>
 
-          {/* Dual Upload Node Layout */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
             <div>
               <label className="block mb-1.5 text-xs font-semibold text-gray-400 uppercase tracking-wider">Avatar <span className="text-red-500">*</span></label>

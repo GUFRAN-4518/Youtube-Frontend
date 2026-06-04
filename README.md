@@ -1,16 +1,17 @@
-# React + Vite
+# CLIPJOY FRONTEND
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The premium client application for Clipjoy, a modern video streaming and community workspace styled with an immersive dark glassmorphism user interface.
 
-Currently, two official plugins are available:
+## FEATURES
+- **Video Player & Streaming:** Fluid aspect-video viewer complete with real-time delayed view counter increments.
+- **Creator Dashboard:** Comprehensive metric monitoring panels showing total videos, views, subscribers, and likes alongside contextual video control nodes.
+- **Interactive Comments:** Dynamic, state-driven comment stack supporting full CRUD operations and inline editing text fields.
+- **Community Feed:** Custom social update micro-blogging timeline ("Community Thoughts") enabling creation, edit overlays, and deletion of tweets.
+- **Navigation:** Fully-responsive navigation panel complete with route tracking and profile-linked "About Me" configurations.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## TECH STACK
+- React.js (Vite)
+- React Router DOM (Navigation)
+- Axios (API Client)
+- Tailwind CSS (Styling)
+- Lucide React (Icons)

@@ -1,7 +1,6 @@
-// frontend/src/pages/VideoPage.jsx
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
-import { getVideoById } from "../api/videoApi";
+import { getVideoById, addView } from "../api/videoApi";
 import { AuthContext } from "../context/AuthContext";
 import api from "../api/axios";
 
@@ -19,6 +18,7 @@ const VideoPage = () => {
   const [error, setError] = useState("");
   const [showPlaylistModal, setShowPlaylistModal] = useState(false);
   const [playlists, setPlaylists] = useState([]);
+  const viewCounted = useRef(false);
 
   useEffect(() => {
     if (!user?._id) return;
@@ -33,9 +33,39 @@ const VideoPage = () => {
     fetchPlaylists();
   }, [user]);
 
+  useEffect(() => {
+    const fetchVideo = async () => {
+      try {
+        setLoading(true);
+        setError("");
+        const res = await getVideoById(id);
+        setVideo(res.data.data);
+
+        if (!viewCounted.current) {
+          viewCounted.current = true;
+          try {
+            await addView(id);
+          } catch (viewErr) {
+            console.error("Failed to register view:", viewErr);
+          }
+        }
+
+      } catch (err) {
+        setError(err.response?.data?.message || "Failed to load video");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchVideo();
+
+    return () => {
+      viewCounted.current = false;
+    };
+  }, [id]);
+
   const handleAddToPlaylist = async (playlistId) => {
     try {
-      await api.patch(`/playlists/add/${video._id}/${playlistId}`);
+      await api.patch(`/playlists/add/${playlistId}/${video._id}`);
       setShowPlaylistModal(false);
     } catch (err) {
       console.error(err);
@@ -71,7 +101,6 @@ const VideoPage = () => {
         <video src={video.videoFile} controls autoPlay className="w-full h-full object-contain" />
       </div>
 
-      {/* Meta Content Header */}
       <div className="mt-6 flex flex-col md:flex-row md:items-start justify-between gap-4 border-b border-white/5 pb-5">
         <div>
           <h1 className="text-xl sm:text-2xl font-bold text-white tracking-tight leading-tight">
@@ -93,8 +122,7 @@ const VideoPage = () => {
       {/* Creator Bar Controls */}
       <div className="flex flex-wrap items-center justify-between gap-4 py-5 border-b border-white/5">
         <div className="flex items-center gap-4">
-          
-          {/* Channel Redirect Wrapper */}
+
           <Link to={`/channel/${video.owner?.username}`} className="flex items-center gap-3.5 group cursor-pointer">
             <div className="w-12 h-12 bg-white/5 rounded-full border border-white/10 overflow-hidden shrink-0 group-hover:border-red-500/50 transition-all duration-300">
               <img src={video.owner?.avatar || "https://via.placeholder.com/150"} alt="channel avatar" className="w-full h-full object-cover" />
@@ -106,7 +134,6 @@ const VideoPage = () => {
             </div>
           </Link>
 
-          {/* Action Subscription Node */}
           <div className="ml-2">
             {!isOwner && video?.owner?._id && (
               <SubscribeButton channelId={video.owner._id} setVideo={setVideo} />
@@ -120,7 +147,10 @@ const VideoPage = () => {
       </div>
 
       {/* Description Field */}
-      <div className="bg-white/5 border border-white/5 p-4 sm:p-5 rounded-2xl mt-6">
+      <h2 className="text-xl font-bold text-white mb-0 px-1">
+        Description
+      </h2>
+      <div className="bg-white/5 border border-white/5 p-4 sm:p-5 rounded-2xl mb-8 mt-2">
         <p className="whitespace-pre-line text-gray-300 text-sm leading-relaxed">
           {video.description || "No description provided."}
         </p>

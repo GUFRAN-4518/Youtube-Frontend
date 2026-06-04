@@ -1,4 +1,3 @@
-// frontend/src/components/CommentSection.jsx
 import { useEffect, useState, useContext } from "react";
 import api from "../api/axios";
 import { AuthContext } from "../context/AuthContext";
@@ -11,7 +10,6 @@ const CommentSection = ({ videoId }) => {
   const [newComment, setNewComment] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // States tracking comment editing actions
   const [editingId, setEditingId] = useState(null);
   const [editContent, setEditContent] = useState("");
   const [editLoading, setEditLoading] = useState(false);
@@ -55,10 +53,8 @@ const CommentSection = ({ videoId }) => {
     if (!editContent.trim()) return;
     try {
       setEditLoading(true);
-      // Matches backend patch pathing framework: PATCH /api/v1/comments/c/:commentId
       const res = await api.patch(`/comments/c/${commentId}`, { content: editContent.trim() });
       
-      // Update local state text while preserving populated author fields smoothly
       setComments((prev) =>
         prev.map((c) => (c._id === commentId ? { ...c, content: res.data.data.content } : c))
       );
@@ -74,7 +70,6 @@ const CommentSection = ({ videoId }) => {
   const handleDelete = async (commentId) => {
     if (!window.confirm("Are you sure you want to delete this comment?")) return;
     try {
-      // Fixed targeted path mapping constraint to direct to /c/ sub-router rule
       await api.delete(`/comments/c/${commentId}`);
       setComments((prev) => prev.filter((c) => c._id !== commentId));
     } catch (err) {

@@ -34,7 +34,6 @@ const Channel = () => {
 
   return (
     <div className="max-w-6xl mx-auto pb-12 px-4">
-      {/* Cover Image Wrapper */}
       <div className="w-full h-32 sm:h-48 border border-white/10 rounded-2xl mb-8 overflow-hidden bg-white/5 relative shadow-inner">
         {channel.coverImage ? (
           <img src={channel.coverImageUrl || channel.coverImage} alt="cover" className="w-full h-full object-cover" />
@@ -43,7 +42,6 @@ const Channel = () => {
         )}
       </div>
 
-      {/* Identity Configuration Block */}
       <div className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-5 mb-10 border-b border-white/5 pb-8">
         <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-red-500/50 p-0.5 shrink-0 shadow-xl bg-gray-900">
           <img src={channel.avatar || "https://via.placeholder.com/150"} alt="avatar" className="w-full h-full object-cover rounded-full" />

@@ -19,7 +19,15 @@ const Search = () => {
         setLoading(true);
         setError("");
         const res = await searchVideos(query);
-        setVideos(res.data.data.videos);
+        
+        const dataPayload = res.data?.data;
+        if (Array.isArray(dataPayload)) {
+          setVideos(dataPayload);
+        } else if (dataPayload && Array.isArray(dataPayload.videos)) {
+          setVideos(dataPayload.videos);
+        } else {
+          setVideos([]);
+        }
       } catch (err) {
         setError(err.response?.data?.message || "Search execution encountered an error.");
       } finally {

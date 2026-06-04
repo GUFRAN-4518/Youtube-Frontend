@@ -1,4 +1,3 @@
-// src/pages/Tweets.jsx
 import { useEffect, useState, useContext } from "react";
 import api from "../api/axios";
 import { AuthContext } from "../context/AuthContext";
@@ -13,7 +12,6 @@ const Tweets = () => {
   const [submitLoading, setSubmitLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // Inline editing state tracking
   const [editingId, setEditingId] = useState(null);
   const [editContent, setEditContent] = useState("");
   const [editLoading, setEditLoading] = useState(false);
@@ -23,8 +21,6 @@ const Tweets = () => {
     try {
       setLoading(true);
       setError("");
-      // Matches your route: GET /api/v1/tweets/user/:userId
-      // Note: Your controller defaults to the logged-in user's ID
       const res = await api.get(`/tweets/user/${user?._id}`);
       setTweets(res.data.data || []);
     } catch (err) {
@@ -38,17 +34,15 @@ const Tweets = () => {
     if (user?._id) fetchTweets();
   }, [user]);
 
-  // 1. Create a Tweet (Implements createTweet)
+  // 1. Create a Tweet
   const handleCreateTweet = async (e) => {
     e.preventDefault();
     if (!newTweet.trim()) return;
 
     try {
       setSubmitLoading(true);
-      // Matches your route: POST /api/v1/tweets/
       const res = await api.post("/tweets", { content: newTweet.trim() });
       
-      // Inject user object manually if backend doesn't populate owner right away
       const freshTweet = {
         ...res.data.data,
         owner: {
@@ -79,7 +73,6 @@ const Tweets = () => {
 
     try {
       setEditLoading(true);
-      // Matches your route: PATCH /api/v1/tweets/:tweetId
       const res = await api.patch(`/tweets/${tweetId}`, { content: editContent.trim() });
 
       setTweets((prev) =>
@@ -98,7 +91,6 @@ const Tweets = () => {
     if (!window.confirm("Are you sure you want to delete this post?")) return;
 
     try {
-      // Matches your route: DELETE /api/v1/tweets/:tweetId
       await api.delete(`/tweets/${tweetId}`);
       setTweets((prev) => prev.filter((t) => t._id !== tweetId));
     } catch (err) {
