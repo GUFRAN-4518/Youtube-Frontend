@@ -20,7 +20,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(""); setSuccess("");
-    if (!avatar) { setError("Avatar image upload is a mandatory index constraint."); return; }
+    if (!avatar) { setError("Avatar image upload is mandatory."); return; }
     setLoading(true);
 
     try {
@@ -36,10 +36,10 @@ const Register = () => {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      setSuccess("Account configuration successfully broadcasted. Moving portal...");
+      setSuccess("Registration successful! Redirecting to login...");
       setTimeout(() => { navigate("/login"); }, 1500);
     } catch (err) {
-      setError(err.response?.data?.message || "Registration sequence dropped");
+      setError(err.response?.data?.message || "Registration failed. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -50,7 +50,6 @@ const Register = () => {
       <div className="w-full max-w-lg bg-[#0a0a0a] border border-white/10 p-8 rounded-3xl shadow-2xl relative">
         <div className="text-center mb-8">
           <h2 className="text-3xl font-extrabold text-white tracking-tight">Create Account</h2>
-          <p className="text-gray-400 text-sm mt-1.5">Configure your custom portal parameters below</p>
         </div>
 
         {error && <div className="bg-red-500/10 border border-red-500/20 text-red-400 p-4 rounded-xl mb-6 text-sm font-medium">{error}</div>}
@@ -69,12 +68,12 @@ const Register = () => {
           </div>
 
           <div>
-            <label className="block mb-1.5 text-xs font-semibold text-gray-400 uppercase tracking-wider">Email Track</label>
+            <label className="block mb-1.5 text-xs font-semibold text-gray-400 uppercase tracking-wider">Email</label>
             <input type="email" name="email" required value={formData.email} onChange={handleChange} className="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-red-500/50 text-sm" />
           </div>
 
           <div>
-            <label className="block mb-1.5 text-xs font-semibold text-gray-400 uppercase tracking-wider">Password Secret</label>
+            <label className="block mb-1.5 text-xs font-semibold text-gray-400 uppercase tracking-wider">Create Password</label>
             <input type="password" name="password" required value={formData.password} onChange={handleChange} className="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-red-500/50 text-sm" />
           </div>
 
