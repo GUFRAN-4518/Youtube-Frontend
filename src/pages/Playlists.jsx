@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import api from "../api/axios";
 import { AuthContext } from "../context/AuthContext";
 import { FolderPlus, ListVideo } from "lucide-react";
+import FullPageLoader from "../components/FullPageLoader";
 
 const Playlists = () => {
     const { user } = useContext(AuthContext);
@@ -39,7 +40,7 @@ const Playlists = () => {
         }
     };
 
-    if (loading) return <div className="text-center mt-20 text-gray-500">Mapping library indices...</div>;
+    if (loading) return <FullPageLoader />;
     if (error) return <div className="text-center mt-20 text-red-400 font-medium">{error}</div>;
 
     return (

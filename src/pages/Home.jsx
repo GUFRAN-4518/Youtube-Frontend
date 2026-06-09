@@ -3,6 +3,8 @@ import { getAllVideos } from "../api/videoApi";
 import VideoCard from "../components/VideoCard";
 import SkeletonCard from "../components/SkeletonCard";
 import { AuthContext } from "../context/AuthContext";
+import api from "../api/axios";
+import FullPageLoader from "../components/FullPageLoader";
 
 const Home = () => {
   const { user } = useContext(AuthContext);
@@ -69,6 +71,10 @@ const Home = () => {
         </div>
       </div>
     );
+  }
+
+  if(loading){
+    return <FullPageLoader/>;
   }
 
   return (

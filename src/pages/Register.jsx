@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import api from "../api/axios";
 import { UserPlus, Image, FileUser } from "lucide-react";
+import FullPageLoader from "../components/FullPageLoader";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -47,6 +48,7 @@ const Register = () => {
 
   return (
     <div className="min-h-[90vh] flex items-center justify-center px-4 py-8">
+      {loading && <FullPageLoader/>}
       <div className="w-full max-w-lg bg-[#0a0a0a] border border-white/10 p-8 rounded-3xl shadow-2xl relative">
         <div className="text-center mb-8">
           <h2 className="text-3xl font-extrabold text-white tracking-tight">Create Account</h2>

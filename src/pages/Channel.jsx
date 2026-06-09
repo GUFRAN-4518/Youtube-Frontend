@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import api from "../api/axios";
 import { AuthContext } from "../context/AuthContext";
 import VideoCard from "../components/VideoCard";
+import FullPageLoader from "../components/FullPageLoader";
 
 const Channel = () => {
   const { username } = useParams();
@@ -28,7 +29,7 @@ const Channel = () => {
     fetchChannel();
   }, [username]);
 
-  if (loading) return <div className="text-center mt-20 text-gray-500">Retrieving channel portfolio...</div>;
+  if (loading) return <FullPageLoader />;
   if (error) return <div className="text-center mt-20 text-red-400 font-medium">{error}</div>;
   if (!channel) return null;
 

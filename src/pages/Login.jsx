@@ -1,6 +1,7 @@
 import { useState, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import FullPageLoader from "../components/FullPageLoader";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -19,6 +20,7 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        
         setError("");
         setLoading(true);
 
@@ -34,6 +36,7 @@ const Login = () => {
 
     return (
         <div className="min-h-[85vh] flex items-center justify-center px-4 py-8">
+            {loading && <FullPageLoader/>}
             <div className="w-full max-w-md bg-[#0a0a0a] border-2 border-white p-8 sm:p-10 rounded-3xl shadow-2xl relative overflow-hidden">
                 
                 <div className="absolute -top-20 -right-20 w-40 h-40 bg-red-600/20 rounded-full blur-[60px] pointer-events-none"></div>
@@ -94,7 +97,7 @@ const Login = () => {
                 </form>
 
                 <p className="text-sm text-gray-400 mt-8 text-center relative z-10">
-                    Don’t have an account?{" "}
+                    Don't have an account?{" "}
                     <Link
                         to="/register"
                         className="text-red-500 hover:text-red-400 font-medium transition-colors"

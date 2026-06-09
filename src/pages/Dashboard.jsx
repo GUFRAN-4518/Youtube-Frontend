@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import api from "../api/axios";
 import VideoCard from "../components/VideoCard";
 import { Tv, Eye, Users, Heart, EyeOff, Pencil, Trash2, X, UploadCloud } from "lucide-react";
+import FullPageLoader from "../components/FullPageLoader";
 
 const Dashboard = () => {
   const [stats, setStats] = useState(null);
@@ -105,7 +106,7 @@ const Dashboard = () => {
     }
   };
 
-  if (loading) return <div className="text-center mt-20 text-gray-500">Loading analysis systems...</div>;
+  if (loading) return <FullPageLoader />;
   if (error) return <div className="text-center mt-20 text-red-400 font-medium">{error}</div>;
 
   const metricCards = stats ? [
@@ -114,6 +115,7 @@ const Dashboard = () => {
     { label: "Subscribers", value: stats.totalSubscribers?.toLocaleString(), icon: Users },
     { label: "Total Likes", value: stats.totalLikes?.toLocaleString(), icon: Heart },
   ] : [];
+
 
   return (
     <div className="max-w-6xl mx-auto pb-12 px-4">

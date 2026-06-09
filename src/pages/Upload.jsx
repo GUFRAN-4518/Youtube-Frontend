@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/axios";
 import { UploadCloud, FileImage } from "lucide-react";
+import FullPageLoader from "../components/FullPageLoader";
 
 const Upload = () => {
   const navigate = useNavigate();
@@ -47,8 +48,10 @@ const Upload = () => {
     }
   };
 
+
   return (
     <div className="max-w-3xl mx-auto mt-6 pb-12 px-4">
+      {loading && <FullPageLoader/>}
       <div className="bg-[#0a0a0a] border border-white/10 p-6 sm:p-10 rounded-3xl shadow-2xl">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-extrabold text-white tracking-tight">

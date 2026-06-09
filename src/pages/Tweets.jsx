@@ -2,6 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import api from "../api/axios";
 import { AuthContext } from "../context/AuthContext";
 import { Send, Trash2, Pencil, X, Check, MessageSquare } from "lucide-react";
+import FullPageLoader from "../components/FullPageLoader";
 
 const Tweets = () => {
   const { user } = useContext(AuthContext);
@@ -107,6 +108,10 @@ const Tweets = () => {
         </div>
       </div>
     );
+  }
+
+  if(loading){
+    return <FullPageLoader/>;
   }
 
   return (
