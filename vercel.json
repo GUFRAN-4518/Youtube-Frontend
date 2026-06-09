@@ -1,5 +1,12 @@
 {
   "rewrites": [
-    { "source": "/api/:path*", "destination": "https://youtube-0bsd.onrender.com/api/:path*" }
+    { 
+      "source": "/api/:path*", 
+      "destination": "https://youtube-0bsd.onrender.com/api/:path*" 
+    },
+    {
+      "source": "/(.*)", 
+      "destination": "/index.html"
+    }
   ]
 }
