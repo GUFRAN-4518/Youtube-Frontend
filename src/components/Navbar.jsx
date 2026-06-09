@@ -70,7 +70,7 @@ const Navbar = ({ toggleSidebar }) => {
           ) : (
             <Link
               to="/login"
-              className="text-sm font-semibold text-white border border-white/20 px-5 py-2 rounded-full hover:bg-white hover:text-black transition-all duration-300"
+              className="text-sm font-semibold text-white border border-white/20 px-5 py-2 rounded-full hover:bg-white hover:text-black transition-all duration-300 md:inline-block hidden"
             >
               Sign In
             </Link>
