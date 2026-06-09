@@ -22,6 +22,10 @@ api.interceptors.response.use(
   async error => {
     const originalRequest = error.config;
 
+    if (originalRequest.url.includes("/refresh-token")) {
+        return Promise.reject(error);
+    }
+    
     if (
       error.response?.status === 401 &&
       !originalRequest._retry
